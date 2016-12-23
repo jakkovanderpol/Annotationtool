@@ -34,12 +34,12 @@ Copyright (C) 2013 Artifex Software, Inc.  All rights reserved.
 This software comes with NO WARRANTY: see the file PUBLIC for details.
 
 __Install sendmail/postfix__
+
 __Cron__
 Setup crontab: */1 * * * * /var/www/annotatiesysteem.nl/convert.sh
 
 __Install PEAR packages__
 Installed packages, channel pear.php.net:
-=========================================
 Package          Version State
 Archive_Tar      1.3.11  stable
 Console_Getopt   1.3.1   stable

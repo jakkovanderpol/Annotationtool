@@ -1,0 +1,392 @@
+%!
+/hex1 [(0)(1)(2)(3)(4)(5)(6)(7)(8)(9)(a)(b)(c)(d)(e)(f)] def
+/hex2 { 2 dict begin /i1 exch def
+/str1 2 string def
+str1 1 hex1 i1 16 mod get putinterval
+str1 0 hex1 i1 16 idiv get putinterval
+str1 end
+} def
+/acvs {
+	% Check stack		
+	2 copy type /stringtype ne exch type /arraytype ne or {
+		/acvs errordict /typecheck get exec
+	} if
+	2 copy length exch length ne {
+		/acvs errordict /rangecheck get exec
+	} if
+	% Convert array into string
+	0 1 3 index length 1 sub {
+		dup 3 index exch get 2 index 3 1 roll put
+	} for
+	exch pop
+} bind def
+/buffer 2 dict begin
+/str 32 string def
+/len 0 def
+currentdict end def
+/composename {
+	buffer begin
+	exch str cvs length /len exch def
+	str len 2 index putinterval length len add /len exch def
+	str 0 len getinterval cvn
+	end
+} bind def
+/RKSJEncoding [ 0 1 2 3 4 5 ] readonly def	
+/SJSuppAEncoding [
+	16#81 1 16#9F { 16#80 sub } for
+] readonly def
+
+/SJSuppBEncoding [
+	16#E0 1 16#EA { 16#DF sub } for
+	16#EB 1 16#EF { pop 0 } for
+] readonly def
+/RKSJSubsVector [ 0 128 1 31 64 16 ] dup length string acvs readonly def
+
+/SJNF
+{
+/soko 21 dict def	
+soko begin 
+  /jisname exch def
+  /i exch def
+  /fdepvector exch def
+  /str1 exch def
+  /realname str1 cvn def
+  /len1 str1 length def
+  /namestr len1 3 add string def
+  namestr 0 str1 putinterval 
+  namestr len1 (.sj) putinterval
+  /name namestr cvn def
+  name 21 dict def
+  name load begin
+   /FontType 3 def
+   /FontInfo 8 dict def
+   FontInfo begin
+    /version (001.001) readonly def
+    /FullName (PROLKANJI) readonly def
+    /FamilyName (PROLKANJI) readonly def
+    /Weight (Medium) readonly def
+    /ItalicAngle 0 def
+    /isFixedPitch false def
+    /UnderlinerPosition 0 def
+    /UnderlineThichness 0 def
+   end
+    /FontMatrix [.001 0 0 .001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /FontName name def
+  /CharProcs 1 dict def
+  CharProcs begin /.notdef {} def end
+  /BuildChar {
+    /_j exch def
+    /curfont currentfont def
+    begin
+%    FontMatrix ==
+%    I = j = RealName =
+    JisName length
+    dup 4 add string dup 0 JisName  putinterval
+    exch 2 copy  (.r) putinterval
+    2 copy 2 add I _j sjtoj pop hex2 putinterval pop
+    findfont dup setfont I _j sjtoj exch pop
+    0 -160 translate
+    (%Type1BuildChar) cvn cvx exec
+    curfont setfont
+    end
+  } bind def
+  /hex1 [(0)(1)(2)(3)(4)(5)(6)(7)(8)(9)(a)(b)(c)(d)(e)(f)] def
+  /hex2 { 2 dict begin /i1 exch def
+  /str1 2 string def
+  str1 1 hex1 i1 16 mod get putinterval
+  str1 0 hex1 i1 16 idiv get putinterval
+  str1 end
+  } def
+  /sjtoj{
+    2 dict begin
+    /c2 exch def /c1 exch def
+    c1 16#e0 ge {/c1 c1 16#40 sub def} if
+    /c1 c1 16#71 sub def
+    c2 16#80 ge {/c2 c2 1 sub def} if
+    c2 16#9e ge 
+      {/c2 c2 16#5e sub def /c1 c1 1 add dup add def}
+      {/c1 c1 c1 1 add add def}
+    ifelse
+    /c2 c2 16#1f sub def
+    c1 255 and c2 255 and
+    end
+  } 
+  def
+
+  /I i def
+  jisname dup length string cvs /JisName exch def
+  /RealName realname def
+  /RealFont 0 def
+  /password 5839 def
+  end
+  name dup dup load definefont def name load
+  end
+} def
+
+/SuppKNF
+{
+/soko 21 dict def	
+soko begin 
+  /jisname exch def
+  /name jisname (.SuppK) composename def
+  name 21 dict def
+  name load begin
+   /FontType 3 def
+   /FontInfo 8 dict def
+   FontInfo begin
+    /version (001.001) readonly def
+    /FullName (PROLKANJI) readonly def
+    /FamilyName (PROLKANJI) readonly def
+    /Weight (Medium) readonly def
+    /ItalicAngle 0 def
+    /isFixedPitch false def
+    /UnderlinerPosition 0 def
+    /UnderlineThichness 0 def
+   end
+    /FontMatrix [.0005 0 0 .001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /FontName name def
+  /CharProcs 1 dict def
+  CharProcs begin /.notdef {} def end
+  /BuildChar {
+    /_j exch def
+    /curfont currentfont def
+    begin
+    0 -160 translate
+%    I = j = RealName =
+    JisName rtable _j get composename
+    findfont dup setfont ttable _j get (%Type1BuildChar) cvn cvx exec
+    curfont setfont
+    end
+  } bind def
+  jisname dup length string cvs /JisName exch def
+  /RealFont 0 def
+/buffer 2 dict begin
+/str 32 string def
+/len 0 def
+currentdict end def
+/composename {
+	buffer begin
+	exch str cvs length /len exch def
+	str len 2 index putinterval length len add /len exch def
+	str 0 len getinterval cvn
+	end
+} bind def
+  /rtable [
+    (.r21) (.r21) (.r21) (.r21) (.r21) (.r21) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r21) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r25)
+    (.r25) (.r25) (.r25) (.r25) (.r25) (.r25) (.r21) (.r21)
+  ] readonly def
+  /ttable [
+    16#21  16#23  16#56  16#57  16#22  16#26  16#72  16#21
+    16#23  16#25  16#27  16#29  16#63  16#65  16#67  16#43
+    16#3d  16#22  16#24  16#26  16#28  16#2a  16#2b  16#2d
+    16#2f  16#31  16#33  16#35  16#37  16#39  16#3b  16#3d
+    16#3f  16#41  16#44  16#46  16#48  16#4a  16#4b  16#4c
+    16#4d  16#4e  16#4f  16#52  16#55  16#58  16#5b  16#5e
+    16#5f  16#60  16#61  16#62  16#64  16#66  16#68  16#69
+    16#6a  16#6b  16#6c  16#6d  16#6f  16#73  16#2b  16#2c
+  ] readonly def
+  /password 5839 def
+  end
+  name dup dup load definefont def name load
+  end
+} def
+
+/RomanNF
+{
+/soko 21 dict def	
+soko begin 
+  /jisname exch def
+  /name jisname (.Roman) composename def
+  name 21 dict def
+  name load begin
+   /FontType 3 def
+   /FontInfo 8 dict def
+   FontInfo begin
+    /version (001.001) readonly def
+    /FullName (PROLKANJI) readonly def
+    /FamilyName (PROLKANJI) readonly def
+    /Weight (Medium) readonly def
+    /ItalicAngle 0 def
+    /isFixedPitch false def
+    /UnderlinerPosition 0 def
+    /UnderlineThichness 0 def
+   end
+   /FontMatrix [.0005 0 0 .001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /FontName name def
+  /CharProcs 1 dict def
+  CharProcs begin /.notdef {} def end
+  /BuildChar {
+    /_j exch def
+    /curfont currentfont def
+    begin
+    0 -160 translate
+%    _j = JisName =
+    JisName rtable _j 16#20 sub get composename
+    findfont dup setfont ttable _j 16#20 sub get (%Type1BuildChar) cvn cvx exec
+    curfont setfont
+    end
+  } bind def
+/buffer 2 dict begin
+/str 32 string def
+/len 0 def
+currentdict end def
+/composename {
+	buffer begin
+	exch str cvs length /len exch def
+	str len 2 index putinterval length len add /len exch def
+	str 0 len getinterval cvn
+	end
+} bind def
+  jisname dup length string cvs /JisName exch def
+  /RealFont 0 def
+  /rtable [
+    (.r21) (.r21) (.r21) (.r21) (.r21) (.r21) (.r21) (.r21)
+    (.r21) (.r21) (.r21) (.r21) (.r21) (.r21) (.r21) (.r21)
+
+    (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+    (.r23) (.r23) (.r21) (.r21) (.r21) (.r21) (.r21) (.r21)
+
+    (.r21) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+    (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+
+    (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+    (.r23) (.r23) (.r23) (.r21) (.r21) (.r21) (.r21) (.r21)
+
+    (.r21) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+    (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+
+    (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23) (.r23)
+    (.r23) (.r23) (.r23) (.r21) (.r21) (.r21) (.r21) (.r21)
+  ] readonly def
+  /ttable [
+    16#21  16#2a  16#49  16#74  16#70  16#73  16#75  16#47
+    16#4a  16#4b  16#76  16#5c  16#24  16#5d  16#25  16#3f
+
+    16#30  16#31  16#32  16#33  16#34  16#35  16#36  16#37
+    16#38  16#39  16#27  16#28  16#63  16#61  16#64  16#29
+
+    16#77  16#41  16#42  16#43  16#44  16#45  16#46  16#47
+    16#48  16#49  16#4a  16#4b  16#4c  16#4d  16#4e  16#4f
+
+    16#50  16#51  16#52  16#53  16#54  16#55  16#56  16#57
+    16#58  16#59  16#5a  16#4e  16#6f  16#4f  16#30  16#32
+
+    16#2e  16#61  16#62  16#63  16#64  16#65  16#66  16#67
+    16#68  16#69  16#6a  16#6b  16#6c  16#6d  16#6e  16#6f
+
+    16#70  16#71  16#72  16#73  16#74  16#75  16#76  16#77
+    16#78  16#79  16#7a  16#50  16#43  16#51  16#41  16#21
+
+  ] readonly def
+  /password 5839 def
+  end
+  name dup dup load definefont def name load
+  end
+} def
+
+/SuppASJNF
+{
+/fontname exch def
+/newname fontname (-SJ-SuppA) composename def
+fontname dup length string cvs /str exch def
+str length /len exch def
+/fdepvector 32 array def 
+
+16#81 1 16#9F {
+/i exch def
+SJSuppAEncoding i 16#81 sub get dup 0 gt {
+fdepvector exch
+len 4 add string dup 0 str putinterval
+dup len (.s) putinterval
+dup len 2 add i hex2 putinterval
+fdepvector i fontname SJNF put
+} if
+} for
+fdepvector 0 fdepvector 1 get put
+newname 20 dict def
+newname load begin
+/FontType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FMapType 2 def
+/Encoding SJSuppAEncoding def
+/FDepVector fdepvector def
+/FontName newname def
+/UniqueId 9876 def
+end
+newname dup dup load definefont
+} def
+
+/SuppBSJNF
+{
+/fontname exch def
+/newname fontname (-SJ-SuppB) composename def
+fontname dup length string cvs /str exch def
+str length /len exch def
+/fdepvector 12 array def 
+
+16#E0 1 16#EA {
+/i exch def
+SJSuppBEncoding i 16#E0 sub get dup 0 gt {
+fdepvector exch
+len 4 add string dup 0 str putinterval
+dup len (.s) putinterval
+dup len 2 add i hex2 putinterval
+fdepvector i fontname SJNF put
+} if
+} for
+fdepvector 0 fdepvector 1 get put
+newname 20 dict def
+newname load begin
+/FontType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FMapType 2 def
+/Encoding SJSuppBEncoding def
+/FDepVector fdepvector def
+/FontName newname def
+/UniqueId 9876 def
+end
+newname dup dup load definefont
+} def
+
+/CompSJNF{
+/fontname exch def
+fontname SuppKNF
+fontname RomanNF
+fontname SuppBSJNF
+fontname SuppASJNF
+/newname fontname (-RKSJ-H) composename def
+
+newname 20 dict def
+newname load begin
+/FontType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FMapType 6 def
+/Encoding RKSJEncoding def
+/SubsVector RKSJSubsVector def
+/FDepVector [
+	fontname (.Roman) composename findfont
+	/NotDefFont findfont
+	fontname (-SJ-SuppA) composename findfont
+	fontname (.SuppK) composename findfont
+	fontname (-SJ-SuppB) composename findfont
+	/NotDefFont findfont
+] readonly def
+/FontName newname def
+/UniqueId 9876 def
+end
+newname dup dup load definefont
+} def
+
+/Wadalab-Gothic-0-13 CompSJNF

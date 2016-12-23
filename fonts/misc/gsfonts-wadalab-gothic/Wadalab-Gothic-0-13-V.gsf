@@ -1,0 +1,125 @@
+%!
+20 dict begin
+
+/JISEncoding [
+	16#00 1 16#20 { pop 0 } for
+	16#21 1 16#28 { 16#20 sub } for
+	16#29 1 16#2F { pop 0 } for
+	16#30 1 16#74 { 16#27 sub } for
+	16#75 1 16#FF { pop 0 } for
+] readonly def
+/hex1 [(0)(1)(2)(3)(4)(5)(6)(7)(8)(9)(a)(b)(c)(d)(e)(f)] def
+/hex2 { 2 dict begin /i1 exch def
+/str1 2 string def
+str1 1 hex1 i1 16 mod get putinterval
+str1 0 hex1 i1 16 idiv get putinterval
+str1 end
+} def
+/DefaultMetrics [0 -1000 500 1000] def
+/VMetrics 256 dict def
+VMetrics begin
+  StandardEncoding {DefaultMetrics def} forall
+end
+
+/LazyNF
+{
+/soko 20 dict def	
+soko begin 
+%  /i 3 index def
+  /fdepvector exch def
+  /str1 exch def
+  /realname str1 cvn def
+  /len1 str1 length def
+  /namestr len1 5 add string def
+  namestr 0 str1 putinterval 
+  namestr len1 (.lazy) putinterval
+  /name namestr cvn def
+  name 20 dict def
+  name load begin
+   /FontType 3 def
+   /FontInfo 8 dict def
+   FontInfo begin
+    /version (001.001) readonly def
+    /FullName (PROLKANJI) readonly def
+    /FamilyName (PROLKANJI) readonly def
+    /Weight (Medium) readonly def
+    /ItalicAngle 0 def
+    /isFixedPitch false def
+    /UnderlinerPosition 0 def
+    /UnderlineThichness 0 def
+   end
+  /FontMatrix [.001 0 0 .001 0 -0.16] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /FontName name def
+  /CharProcs 1 dict def
+  /WMode 1 def
+  CharProcs begin /.notdef {} def end
+  /Metrics1 VMetrics def
+  /BuildChar {
+    0 -1000 setcharwidth
+    /curfont currentfont def
+    exch begin
+%    fdepvector j RealName findfont put
+    RealName findfont
+    dup length dict begin
+    {1 index /FID ne {def}{pop pop} ifelse} forall
+    /Metrics2 Metrics1 def
+    currentdict
+    end
+    /soko exch definefont pop
+%    /soko findfont dup setfont exch
+    /soko findfont 1000 scalefont setfont
+    -500 -160 translate 0 0 moveto
+    1 string dup 0 4 3 roll put show
+%    (%Type1BuildChar) cvn cvx exec
+    curfont setfont
+    end
+  } bind def
+  /RealName realname def
+  /RealFont 0 def
+%  /fdepvector fdepvector def
+%  /j i def
+  /password 5839 def
+  end
+  name dup dup load definefont def name load
+  end
+} def
+/VCompNF
+{
+/newname exch def
+newname dup length string cvs /str exch def
+str length /len exch def
+len 2 add string 
+dup 0 str putinterval
+dup len (-V) putinterval
+cvn /vname exch def
+/fdepvector 78 array def 
+
+16#21 1 16#74 {
+/i exch def
+JISEncoding i get dup 0 gt {
+fdepvector exch
+len 4 add string dup 0 str putinterval
+dup len (.v) putinterval
+dup len 2 add i hex2 putinterval
+fdepvector LazyNF put
+} if
+} for
+fdepvector 0 fdepvector 1 get put
+vname 20 dict def
+vname load begin
+/FontType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FMapType 2 def
+/Encoding JISEncoding def
+/FDepVector fdepvector def
+/FontName vname def
+/WMode 1 def
+% /UniqueId 9876 def
+end
+vname dup dup load definefont
+} def
+
+/Wadalab-Gothic-0-13 VCompNF
+end

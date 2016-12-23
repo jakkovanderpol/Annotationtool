@@ -1,0 +1,117 @@
+%!
+20 dict begin
+
+/EUCEncoding [
+	16#00 1 16#A0 { pop 0 } for
+	16#A1 1 16#A8 { 16#A0 sub } for
+	16#A9 1 16#AF { pop 0 } for
+	16#B0 1 16#F4 { 16#A7 sub } for
+	16#F5 1 16#FF { pop 0 } for
+] readonly def
+/hex1 [(0)(1)(2)(3)(4)(5)(6)(7)(8)(9)(a)(b)(c)(d)(e)(f)] def
+/hex2 { 2 dict begin /i1 exch def
+/str1 2 string def
+str1 1 hex1 i1 16 mod get putinterval
+str1 0 hex1 i1 16 idiv get putinterval
+str1 end
+} def
+/buffer 2 dict begin
+/str 32 string def
+/len 0 def
+currentdict end def
+/composename {
+	buffer begin
+	exch str cvs length /len exch def
+	str len 2 index putinterval length len add /len exch def
+	str 0 len getinterval cvn
+	end
+} bind def
+
+/EUCNF
+{
+/soko 20 dict def	
+soko begin 
+%  /i 3 index def
+  /fdepvector exch def
+  /str1 exch def
+  /realname str1 cvn def
+  /len1 str1 length def
+  /namestr len1 4 add string def
+  namestr 0 str1 putinterval 
+  namestr len1 (.euc) putinterval
+  /name namestr cvn def
+  name 20 dict def
+  name load begin
+   /FontType 3 def
+   /FontInfo 8 dict def
+   FontInfo begin
+    /version (001.001) readonly def
+    /FullName (PROLKANJI) readonly def
+    /FamilyName (PROLKANJI) readonly def
+    /Weight (Medium) readonly def
+    /ItalicAngle 0 def
+    /isFixedPitch false def
+    /UnderlinerPosition 0 def
+    /UnderlineThichness 0 def
+   end
+% for Ghostscript version 3.X
+  /FontMatrix [.001 0 0 .001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /FontName name def
+  /CharProcs 1 dict def
+  CharProcs begin /.notdef {} def end
+  /BuildChar {
+    dup =
+    /curfont currentfont def
+    exch begin
+%    fdepvector j RealName findfont put
+    RealName findfont dup setfont exch 16#80 sub
+    0 -160 translate
+    (%Type1BuildChar) cvn cvx exec
+    curfont setfont
+    end
+  } bind def
+  /RealName realname def
+  /RealFont 0 def
+%  /fdepvector fdepvector def
+%  /j i def
+  /password 5839 def
+  end
+  name dup dup load definefont def name load
+  end
+} def
+
+/CompEUCNF
+{
+/fontname exch def
+/newname fontname (-EUC-H) composename def
+fontname dup length string cvs /str exch def
+str length /len exch def
+/fdepvector 78 array def 
+16#A1 1 16#F4 {
+/i exch def
+EUCEncoding i get dup 0 gt {
+fdepvector exch
+len 4 add string dup 0 str putinterval
+dup len (.r) putinterval
+dup len 2 add i 16#80 sub hex2 putinterval
+fdepvector EUCNF put
+} if
+} for
+fdepvector 0 fdepvector 1 get put
+newname 20 dict def
+newname load begin
+/FontType 0 def
+/FontMatrix [1 0 0 1 0 0] def
+/FMapType 2 def
+/Encoding EUCEncoding def
+/FDepVector fdepvector def
+/FontName newname def
+/UniqueId 9876 def
+end
+newname dup dup load definefont
+} def
+
+/Wadalab-Mincho-0-8 CompEUCNF
+end

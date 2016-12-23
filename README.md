@@ -40,16 +40,16 @@ Setup crontab: */1 * * * * /var/www/annotatiesysteem.nl/convert.sh
 
 __Install PEAR packages__
 Installed packages, channel pear.php.net:
-Package          Version State
-Archive_Tar      1.3.11  stable
-Console_Getopt   1.3.1   stable
-DB               1.7.13  stable
-PEAR             1.9.4   stable
-Structures_Graph 1.0.4   stable
-XML_Util         1.2.1   stable
+- Package          Version State
+- Archive_Tar      1.3.11  stable
+- Console_Getopt   1.3.1   stable
+- DB               1.7.13  stable
+- PEAR             1.9.4   stable
+- Structures_Graph 1.0.4   stable
+- XML_Util         1.2.1   stable
 
 ## Bestanden
--	./annotatiesysteem.nl/convert.sh en convert.php voor het converteren van geuploade PDFs naar gifs die geannoteerd kunnen worden (http://www.imagemagick.org/script/convert.php ).
+-	./annotatiesysteem.nl/convert.sh and convert.php for converting the uploaded PDF files to GIF files that can then be annotated with the tool  (http://www.imagemagick.org/script/convert.php ).
 -	./annotationtool.sql database file
 -	Ghostscript server files: /var/lib/ghostscript
 -	Extra fonts: /usr/share/fonts
